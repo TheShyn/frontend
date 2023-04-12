@@ -1,58 +1,61 @@
 import { useEffect, useState } from 'react'
-import './App.css'
-import {Routes,Route} from 'react-router-dom'
-import Product from './pages/Product'
-import { addNewProduct, getAllProduct, updateProduct } from './api/Product'
-import axios from 'axios'
+import { Route, Routes } from 'react-router-dom'
+import { getAllProduct } from './api/Product'
+import LayoutAdmin from './layout/admin'
+import LayoutClient from './layout/client'
 import IData from './models/Products'
-import AddNew from './pages/AddNew'
-import UpData from './models/Product1'
-import UpdateProduct from './pages/UpdateProduct'
+import Detail from './pages/Detail'
+import HomePage from './pages/HomePage'
+import Product from './pages/Product'
+import AddNew from './pages/admin/AddNew'
+import Dashboard from './pages/admin/Dashboard'
+import ProductManagementPage from './pages/admin/ProductsMangement'
+import UpdateProduct from './pages/admin/UpdateProduct'
+import Login from './pages/auth/Login'
+import LayoutAuth from './layout/auth'
+import Register from './pages/auth/Register'
+import ManagementCategories from './pages/admin/categories'
+import AddNewCate from './pages/admin/categories/AddNewCate'
+import UpdateCate from './pages/admin/categories/UpdateCate'
+import ManagementUsers from './pages/admin/user'
+import UpdateUser from './pages/admin/user/UpdateUser'
 
 function App() {
   const [products, setProducts] = useState<IData[]>([])
-  const handleDelete = async (id:number) =>{
-    try {
-      const data = await axios.delete(`http://localhost:3000/products/${id}`)
-      console.log(data);
-      setProducts(products.filter(product => product.id !== id))
-    } catch (error) {
-      console.log(error);
-      
-    }
-
-  }
-
-  const onHandleAdd = async (product:UpData) => {
-    console.log('app.js', product)
-    try {
-      const data = await addNewProduct(product)
-      setProducts([data.data])
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const onHandleUpdate = async (product:IData) => {
-    // console.log(product);
-    try {
-      const data = await updateProduct(product.id,product)
-      console.log(data.data);
-      setProducts([data.data])
-    } catch (error) {
-      console.log(error);
-      
-    }
-  }
   useEffect(() => {
     getAllProduct().then(({ data }) => setProducts(data))
   }, [])
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Product products1={products} handleRemove = {handleDelete} />} />
-        <Route path="/add" element={<AddNew onAdd = {onHandleAdd}/>} />
-        <Route path="/update/:id" element={<UpdateProduct products1={products} onHandleUpdate = {onHandleUpdate}/>} />
+        <Route path="/" element={<LayoutClient />}>
+          <Route index element={<HomePage />} />
+          <Route path='products'>
+            <Route index element={<Product  />} />
+            <Route path='/products/:id' element={<Detail/>} />
+          </Route>
+        </Route>
+        <Route path='/admin' element={<LayoutAdmin />}>
+          <Route index element={<Dashboard />} />
+          <Route path='managementProducts' element={<ProductManagementPage />} />
+
+          <Route path="managementProducts/add" element={<AddNew />} />
+          <Route path="products/:id/update" element={<UpdateProduct />} />
+
+          {/* cate */}
+          <Route path="managementCategories" element={<ManagementCategories />} />
+          <Route path="managementCategories/add" element={<AddNewCate />} />
+          <Route path="managementCategories/:id/update" element={<UpdateCate />} />
+        {/* user */}
+          <Route path="managementUsers" element={<ManagementUsers />} />
+          <Route path="managementUsers/:id/update" element={<UpdateUser />} />
+
+        
+        </Route>
+        <Route path='auth' element={<LayoutAuth/>}>
+          <Route index element = {<Login/>}  />
+          <Route path='register' element = {<Register/>}  />
+        </Route>
       </Routes>
     </div>
   )

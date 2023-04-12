@@ -1,6 +1,13 @@
+interface ICateId{
+    _id: string;
+    name:string
+  }
 interface IData {
-    id:number,
+    _id:string | undefined,
     name:string,
-    price:string
+    price:string,
+    img:string,
+    description:string,
+    categoryId:ICateId
 }
 export default IData

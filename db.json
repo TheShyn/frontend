@@ -2,23 +2,18 @@
   "products": [
     {
       "id": 1,
-      "name": "Product Awqeqweq",
-      "price": "1232313"
-    },
-    {
-      "id": 2,
       "name": "Product B",
       "price": 123
     },
     {
-      "id": 3,
-      "name": "Product C",
+      "id": 2,
+      "name": "Product B2",
       "price": 123
     },
     {
-      "name": "sdasda",
-      "price": "31234",
-      "id": 4
+      "id": 3,
+      "name": "Product B3",
+      "price": 123
     }
   ]
 }
