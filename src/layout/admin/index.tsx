@@ -13,15 +13,7 @@ import { Outlet, Link } from 'react-router-dom'
 
 export default function LayoutAdmin() {
     const { Header, Footer, Sider } = Layout;
-    // const user = localStorage.getItem('userInformation');
-    // if(user){
-    //     const dataUser = JSON.parse(user)
-    //     if(dataUser.role !=='admin'){
-    //         location.replace('/')
-    //     }
-    // }else{
-    //     location.replace('/auth')
-    // }
+
     type MenuItem = Required<MenuProps>['items'][number];
 
     function getItem(
